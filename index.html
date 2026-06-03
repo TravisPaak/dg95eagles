@@ -75,7 +75,6 @@
         .highlight-card { padding: 12px 10px; } 
         .highlight-card .win-title { font-size: 17px; color: #f986e7 !important; margin-bottom: 2px; text-shadow: 0 0 8px rgba(249, 134, 231, 0.6); }
         
-        /* 💡 수정: 화이트 네온 강도 대폭 축소 (0.4 opacity, blur 축소) */
         .highlight-card .stat-text { 
             font-size: 30px !important; 
             color: #ffffff !important; 
@@ -211,15 +210,15 @@
                         <img src="mission1_pc.png" alt="노시환 미션" class="responsive-img">
                     </picture>
                 </div>
-                <div class="mission-title">노시환 홈런 미션 성공률</div>
-                <div style="font-size: 15px; margin-bottom: 5px;" id="mission-nosihwan-stat">( -회 / -회 )</div>
-                <div style="color: var(--text-sub); font-size: 13px;">놓친 별풍선 총 <span class="mission-point" id="mission-nosihwan-point">0</span>개</div>
+                <div class="mission-title">노시환 홈런 미션 성공률 <span style="font-size: 14px; font-weight: normal;" id="mission-nosihwan-stat">( -회 / -회 )</span></div>
+                <div style="color: white; font-size: 13px; margin-bottom: 4px;">별풍선 <span class="mission-point" id="mission-nosihwan-get" style="font-size: 17px;">0</span>개 획득</div>
+                <div style="color: var(--text-sub); font-size: 13px;">놓친 별풍선 총 <span class="mission-point" id="mission-nosihwan-point" style="font-size: 17px;">0</span>개</div>
             </div>
 
             <div class="card sidebar-card mission-card" style="margin-bottom: 0;">
-                <div class="mission-title">스포츠토토 베팅 성공률</div>
-                <div style="font-size: 15px; margin-bottom: 5px;" id="mission-toto-stat">( -회 / -회 )</div>
-                <div style="color: var(--text-sub); font-size: 13px;">국민체육진흥공단 기부금 총<br><span class="mission-point" id="mission-toto-point">0</span>원</div>
+                <div class="mission-title">스포츠토토 베팅 성공률 <span style="font-size: 14px; font-weight: normal;" id="mission-toto-stat">( -회 / -회 )</span></div>
+                <div style="color: white; font-size: 13px; margin-bottom: 4px;">적중 금액 <span class="mission-point" id="mission-toto-get" style="font-size: 17px;">0</span>원 획득</div>
+                <div style="color: var(--text-sub); font-size: 13px;">국민체육진흥공단 기부금 총 <span class="mission-point" id="mission-toto-point" style="font-size: 17px;">0</span>원</div>
             </div>
         </div>
 
@@ -233,12 +232,12 @@
 
             <div class="win-rate-grid">
                 <div class="card win-card">
-                    <div class="win-title" style="color: white;">2026 KBO 한화이글스 총 성적<br>
+                    <div class="win-title" style="color: white;">2026 KBO 한화이글스 성적<br>
                         <a href="https://m.sports.naver.com/kbaseball/record/kbo?seasonCode=2026&tab=teamRank" target="_blank" class="rank-link">
                             전체 순위 확인 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px;"></i>
                         </a>
                     </div>
-                    <div style="font-size: 19px; font-weight: bold; margin-bottom: 12px;" id="stat-hanwha">-승 -패</div>
+                    <div style="font-size: 19px; font-weight: bold; margin-bottom: 12px;" id="stat-hanwha">-승 -무 -패</div>
                     <div class="donut-chart" id="chart-hanwha">
                         <div class="donut-inner" id="percent-hanwha">0%</div>
                     </div>
@@ -246,7 +245,7 @@
                 
                 <div class="card win-card highlight-card" style="border: 2px solid var(--point-orange);">
                     <div class="win-title">🎉 강덕구 입중계 전적 🎉</div>
-                    <div class="stat-text" id="stat-deokgu">-승 -패</div>
+                    <div class="stat-text" id="stat-deokgu">-승 -무 -패</div>
                     <div class="donut-chart" id="chart-deokgu">
                         <div class="donut-inner" id="percent-deokgu">0%</div>
                     </div>
@@ -254,7 +253,7 @@
 
                 <div class="card win-card">
                     <div class="win-title">노덕구 전적 :(<br><span style="font-size:11.5px; font-weight:normal;">(입중계 콘텐츠 시작한 뒤로 집계)</span></div>
-                    <div style="font-size: 19px; font-weight: bold; margin-bottom: 12px;" id="stat-nodeokgu">-승 -패</div>
+                    <div style="font-size: 19px; font-weight: bold; margin-bottom: 12px;" id="stat-nodeokgu">-승 -무 -패</div>
                     <div class="donut-chart" id="chart-nodeokgu">
                         <div class="donut-inner" id="percent-nodeokgu">0%</div>
                     </div>
@@ -264,7 +263,7 @@
             <div class="sentence-card" id="dynamic-sentence-card">
                 <div class="ai-title-wrapper">
                     <div class="ai-icon">🤖</div>
-                    <div class="ai-text">입중계 분석 코멘트</div>
+                    <div class="ai-text">입중계 요약 코멘트</div>
                 </div>
                 <div id="dynamic-sentence-text" style="min-height: 30px;">
                     데이터를 분석 중입니다...
@@ -306,6 +305,11 @@
         </div>
     </div>
 
+    <!-- 💡 수정: 중복되어 있던 푸터를 지우고 이쪽으로 위치를 옮겨 한 번만 렌더링되도록 정리했습니다. -->
+    <footer style="text-align: center; padding: 40px 20px; color: #575e68; font-size: 13px; font-weight: 500; border-top: 1px solid #1e293b; margin-top: 40px;">
+        © 2026 강덕구 x 한화 이글스 입중계 아카이브
+    </footer>
+
     <script src="data.js"></script>
     <script>
         const tbody = document.getElementById('match-tbody');
@@ -331,6 +335,7 @@
                     
                     if (name.includes('한화') || name.includes('강덕구') || name.includes('노덕구')) {
                         const w = parseInt(row['승']) || 0;
+                        const d = parseInt(row['무']) || 0;
                         const l = parseInt(row['패']) || 0;
                         const total = w + l; 
                         const rate = total > 0 ? Math.round((w / total) * 100) : 0;
@@ -347,7 +352,7 @@
                             if (targetId === 'hanwha' && row['순위']) {
                                 rankText = ` <span style="font-size: 15px; font-weight: normal;">(${row['순위']}위)</span>`;
                             }
-                            document.getElementById(`stat-${targetId}`).innerHTML = `${w}승 ${l}패${rankText}`;
+                            document.getElementById(`stat-${targetId}`).innerHTML = `${w}승 ${d}무 ${l}패${rankText}`;
                             document.getElementById(`percent-${targetId}`).innerText = `${rate}%`;
                             document.getElementById(`chart-${targetId}`).style.background = `conic-gradient(${color} ${rate}%, var(--border-color) 0)`;
                         }
@@ -355,15 +360,21 @@
                     
                     if (name.includes('노시환')) {
                         document.getElementById('mission-nosihwan-stat').innerText = `( ${row['성공'] || 0}회 / ${row['목표'] || 0}회 )`;
+                        
                         let rawPoint = String(row['포인트']).replace(/[^0-9]/g, '');
-                        let point = parseInt(rawPoint) || 0;
-                        document.getElementById('mission-nosihwan-point').innerText = point.toLocaleString();
+                        document.getElementById('mission-nosihwan-point').innerText = (parseInt(rawPoint) || 0).toLocaleString();
+                        
+                        let rawGet = String(row['획득'] || '0').replace(/[^0-9]/g, '');
+                        document.getElementById('mission-nosihwan-get').innerText = (parseInt(rawGet) || 0).toLocaleString();
                     }
                     else if (name.includes('토토')) {
                         document.getElementById('mission-toto-stat').innerText = `( ${row['성공'] || 0}회 / ${row['목표'] || 0}회 )`;
+                        
                         let rawPoint = String(row['포인트']).replace(/[^0-9]/g, '');
-                        let point = parseInt(rawPoint) || 0;
-                        document.getElementById('mission-toto-point').innerText = point.toLocaleString();
+                        document.getElementById('mission-toto-point').innerText = (parseInt(rawPoint) || 0).toLocaleString();
+                        
+                        let rawGet = String(row['획득'] || '0').replace(/[^0-9]/g, '');
+                        document.getElementById('mission-toto-get').innerText = (parseInt(rawGet) || 0).toLocaleString();
                     }
                     else if (name.includes('즐겨찾기')) {
                         document.getElementById('stat-favorite').innerText = row['포인트'] !== undefined ? row['포인트'] : '-';
@@ -530,15 +541,15 @@
                             </div>
                         `;
                         recordHtml = `
-                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border-left: 4px solid var(--point-orange);">
-                                <div style="font-weight: bold; color: var(--point-orange); margin-bottom: 8px;">📝 기록</div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border-left: 4px solid #FF6600;">
+                                <div style="font-weight: bold; color: #FF6600; margin-bottom: 8px;">📝 기록</div>
                                 <div style="color: #cbd5e1; line-height: 1.6;">${recordPart.replace(/\n/g, '<br>')}</div>
                             </div>
                         `;
                     } else {
                         recordHtml = `
-                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border-left: 4px solid var(--point-orange);">
-                                <div style="font-weight: bold; color: var(--point-orange); margin-bottom: 8px;">📝 상세 내용</div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border-left: 4px solid #FF6600;">
+                                <div style="font-weight: bold; color: #FF6600; margin-bottom: 8px;">📝 상세 내용</div>
                                 <div style="color: #cbd5e1; line-height: 1.6;">${rawText.replace(/\n/g, '<br>')}</div>
                             </div>
                         `;
@@ -605,7 +616,9 @@
                     rateBriefing = "드디어 패배 요정 타이틀을 내던지고, 당당히 승리를 부르는 이글스의 '승리 요정'으로 거듭났습니다. ";
                 }
 
-                const sentence = `${rateBriefing}참고로, 덕구가 입중계를 할 때면 ${createClickableName(topHomerun, 'homerun')}${getJosaOnly(topHomerun, '이가')} 홈런을 빵빵 터트려주고 있으며, ${createClickableName(topPitcher, 'pitcher')}${getJosaOnly(topPitcher, '이가')} 선발 투수로서 제일 뛰어난 활약을 보이고 있고, ${createClickableName(topError, 'error')}${getJosaOnly(topError, '이가')} 가장 많은 실책을 저지르고 있습니다.`;
+                const todayComment = "마지막에 따라잡히는 것만 몇 번째인지... "; 
+
+                const sentence = `${todayComment}${rateBriefing}참고로, 덕구가 입중계를 할 때면 ${createClickableName(topHomerun, 'homerun')}${getJosaOnly(topHomerun, '이가')} 홈런을 빵빵 터트려주고 있으며, ${createClickableName(topPitcher, 'pitcher')}${getJosaOnly(topPitcher, '이가')} 선발 투수로서 제일 뛰어난 활약을 보이지를 않고 있고, ${createClickableName(topError, 'error')}${getJosaOnly(topError, '이가')} 가장 많은 실책을 저지르고 있습니다.`;
                 
                 const targetElement = document.getElementById('dynamic-sentence-text');
                 
@@ -710,9 +723,5 @@
             }
         });
     </script>
-<footer style="text-align: center; padding: 40px 20px; color: #575e68; font-size: 13px; font-weight: 500; border-top: 1px solid #1e293b; margin-top: 40px;">
-        © 2026 강덕구 x 한화 이글스 입중계 아카이브
-    </footer>
 </body>
 </html>
-
