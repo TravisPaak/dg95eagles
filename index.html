@@ -364,15 +364,42 @@
                         else if (name.includes('강덕구')) { targetId = 'deokgu'; deokguWinRate = rate; } 
                         else if (name.includes('노덕구')) { targetId = 'nodeokgu'; }
 
-                        if (targetId) {
-                            let rankText = '';
-                            if (targetId === 'hanwha' && row['순위']) {
-                                rankText = ` <span style="font-size: 15px; font-weight: normal;">(${row['순위']}위)</span>`;
-                            }
-                            document.getElementById(`stat-${targetId}`).innerHTML = `${w}승 ${d}무 ${l}패${rankText}`;
-                            document.getElementById(`percent-${targetId}`).innerText = `${rate}%`;
-                            document.getElementById(`chart-${targetId}`).style.background = `conic-gradient(${color} ${rate}%, var(--border-color) 0)`;
-                        }
+                       if (targetId) {
+    let rankText = '';
+    if (targetId === 'hanwha' && row['순위']) {
+        rankText = ` <span style="font-size: 15px; font-weight: normal;">(${row['순위']}위)</span>`;
+    }
+    document.getElementById(`stat-${targetId}`).innerHTML = `${w}승 ${d}무 ${l}패${rankText}`;
+    
+    // 💡 도넛 차트 & 숫자 차오르는 애니메이션 추가
+    let startTime = null;
+    const duration = 1200; // 애니메이션 지속 시간 (1.2초)
+    
+    function animateChart(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = timestamp - startTime;
+        const percentage = Math.min(progress / duration, 1);
+        
+        // 처음엔 빠르게, 끝날 땐 부드럽게 느려지는 효과 (Ease-out)
+        const easeProgress = 1 - Math.pow(1 - percentage, 3);
+        const currentRate = rate * easeProgress;
+        
+        // 화면에 중간 과정(숫자 및 그래프) 그리기
+        document.getElementById(`percent-${targetId}`).innerText = `${Math.round(currentRate)}%`;
+        document.getElementById(`chart-${targetId}`).style.background = `conic-gradient(${color} ${currentRate}%, var(--border-color) 0)`;
+        
+        // 시간이 다 안 끝났으면 계속 반복
+        if (progress < duration) {
+            requestAnimationFrame(animateChart);
+        } else {
+            // 애니메이션 종료 시 정확한 목표값으로 딱 맞추기
+            document.getElementById(`percent-${targetId}`).innerText = `${rate}%`;
+            document.getElementById(`chart-${targetId}`).style.background = `conic-gradient(${color} ${rate}%, var(--border-color) 0)`;
+        }
+    }
+    // 애니메이션 시작!
+    requestAnimationFrame(animateChart);
+}
                     }
                     
                     if (name.includes('노시환')) {
