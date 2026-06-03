@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강덕구 x 한화 입중계 대시보드</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff');
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* 🎨 다크 네이비 & 한화 오렌지 테마 */
+        :root {
+            --bg-color: #0f172a;       
+            --card-bg: #1e293b;        
+            --point-orange: #FF6600;   
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-color: #334155;
+            --radius: 24px;
+            --color-strike: #22c55e;
+            --color-ball: #eab308;
+            --color-out: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-color); font-family: 'Noto Sans KR', sans-serif; color: var(--text-main); padding: 40px; line-height: 1.6; }
+        
+        .container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 320px 1fr; gap: 30px; }
+        
+        .card { background: var(--card-bg); border-radius: var(--radius); padding: 30px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .sidebar-card { padding: 20px; } 
+        
+        .profile-wrapper { text-align: center; margin-bottom: 20px; }
+        .profile-img { width: 125px; height: 125px; border-radius: 50%; background: #334155; margin: 0 auto 15px; border: 4px solid var(--point-orange); box-shadow: 0 0 20px rgba(255, 102, 0, 0.3); display: flex; align-items: center; justify-content: center; font-size: 45px; color: var(--text-sub); overflow: hidden;}
+        
+        .btn-broadcast { background: var(--point-orange); color: white; padding: 8px 24px; border-radius: 20px; font-weight: 800; font-size: 14px; display: inline-block; margin-bottom: 15px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3); }
+        .btn-broadcast:hover { background: #e65c00; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4); }
+        
+        .neon-stats-container { display: flex; flex-direction: row; justify-content: center; gap: 6px; margin-top: 15px; width: 100%; align-items: stretch; }
+        .neon-box { background: rgba(0,0,0,0.4); border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; white-space: nowrap; font-family: 'Poppins', 'Noto Sans KR', sans-serif; }
+        .neon-short { padding: 6px 8px; font-size: 13px; font-weight: 800; flex: 0 0 auto; }
+        .neon-long { padding: 6px 12px; font-size: 12px; font-weight: 700; flex: 0 0 auto; letter-spacing: -0.3px; }
+        
+        .neon-yellow { border: 2px solid #eab308; color: #fde047; box-shadow: 0 0 12px rgba(234, 179, 8, 0.4), inset 0 0 8px rgba(234, 179, 8, 0.2); text-shadow: 0 0 6px rgba(234, 179, 8, 0.6); }
+        .neon-red { border: 2px solid #ef4444; color: #fca5a5; box-shadow: 0 0 12px rgba(239, 68, 68, 0.4), inset 0 0 8px rgba(239, 68, 68, 0.2); text-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
+        .neon-green { border: 2px solid #22c55e; color: #86efac; box-shadow: 0 0 12px rgba(34, 197, 94, 0.4), inset 0 0 8px rgba(34, 197, 94, 0.2); text-shadow: 0 0 6px rgba(34, 197, 94, 0.6); }
+
+        .mission-card { text-align: center; margin-bottom: 15px; }
+        .mission-img { width: 100%; height: 150px; background: #334155; border-radius: 12px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 14px; overflow: hidden; position: relative;}
+        .mission-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
+        .mission-point { color: var(--point-orange); font-size: 20px; font-weight: 900; }
+
+        .banner { width: 100%; height: 140px; background-color: rgba(255, 255, 255, 0.05); border: none; border-radius: var(--radius); margin-bottom: 30px; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 14px; overflow: hidden; position: relative;}
+        
+        .responsive-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+        .rank-link { color: #60a5fa; font-size: 12.5px; font-weight: normal; text-decoration: none; transition: 0.2s; display: inline-block; margin-top: 2px; }
+        .rank-link:hover { color: #93c5fd; text-decoration: underline; }
+
+        .win-rate-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 20px; margin-bottom: 30px; align-items: center; }
+        .win-card { text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 15px 10px; }
+        .win-title { font-size: 14.5px; color: var(--text-sub); font-weight: bold; margin-bottom: 6px; }
+        
+        .donut-chart { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto; background: conic-gradient(var(--border-color) 0%, var(--border-color) 0); display: flex; align-items: center; justify-content: center; transition: background 0.5s ease;}
+        .donut-inner { width: 75px; height: 75px; background: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; font-family: 'Poppins'; }
+        
+        .highlight-card { padding: 12px 10px; } 
+        .highlight-card .win-title { font-size: 17px; color: #f986e7 !important; margin-bottom: 2px; text-shadow: 0 0 8px rgba(249, 134, 231, 0.6); }
+        
+        /* 💡 수정: 화이트 네온 강도 대폭 축소 (0.4 opacity, blur 축소) */
+        .highlight-card .stat-text { 
+            font-size: 30px !important; 
+            color: #ffffff !important; 
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4) !important; 
+            margin-bottom: 12px !important; 
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .highlight-card .donut-chart { width: 125px; height: 125px; } 
+        .highlight-card .donut-inner { width: 92px; height: 92px; font-size: 25px; }
+
+        .trend-card { display: flex; justify-content: space-between; align-items: center; padding: 12px 30px; margin-bottom: 30px; }
+        .trend-title { font-size: 18px; font-weight: bold; }
+        
+        .trend-balls { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+        .ball { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: white; }
+        
+        .ball.w { background-color: var(--color-strike); } 
+        .ball.l { background-color: var(--color-out); } 
+        .ball.d { background-color: var(--color-ball); } 
+
+        .table-wrapper { position: relative; }
+        
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { color: #fef9c3; font-size: 14px; text-align: center; padding: 10px; border-bottom: 1px solid var(--border-color); }
+        .data-row { cursor: pointer; transition: 0.2s; }
+        .data-row:hover { background-color: rgba(255, 255, 255, 0.05); }
+        .data-row td { padding: 12px 15px; text-align: center; font-size: 15px; border-bottom: 1px solid var(--border-color); }
+        .hidden-row { display: none !important; }
+        
+        .btn-detail { background: var(--border-color); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-detail:hover { background: var(--point-orange); }
+        
+        .btn-expand { display: block; margin: 25px auto 0; background: var(--border-color); color: var(--text-main); font-family: inherit; font-weight: bold; border: none; padding: 12px 30px; border-radius: 12px; cursor: pointer; font-size: 15px; transition: 0.2s; position: relative; z-index: 10; }
+        .btn-expand:hover { background: #475569; }
+
+        .fade-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; background: linear-gradient(to bottom, rgba(30,41,59,0) 0%, rgba(30,41,59,1) 100%); pointer-events: none; transition: opacity 0.3s; z-index: 5; }
+        .fade-overlay.hidden { opacity: 0; }
+
+        .detail-row { display: none; background: #162032; }
+        .detail-content { padding: 20px; text-align: left; font-size: 14px; color: #cbd5e1; }
+        
+        .sentence-card { 
+            text-align: left; 
+            padding: 20px 40px; margin-bottom: 30px; 
+            font-size: 16px; line-height: 1.8; 
+            color: #ffffff; 
+            border: 1px solid rgba(167, 139, 250, 0.4); 
+            background: rgba(45, 30, 70, 0.6); 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(167, 139, 250, 0.1); 
+        }
+
+        .ai-title-wrapper { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin-bottom: 10px; } 
+        .ai-icon { width: 28px; height: 28px; background: #9333ea; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 10px rgba(147, 51, 234, 0.4); } 
+        .ai-text { font-family: 'GmarketSansBold', sans-serif; font-size: 16px; color: #8b5cf6; letter-spacing: -0.5px; } 
+
+        .cursor { display: inline-block; width: 2px; animation: blink 1s step-end infinite; color: var(--point-orange); font-weight: bold; margin-left: 2px;}
+        @keyframes blink { 50% { opacity: 0; } }
+        
+        .highlight-name { color: var(--point-orange); font-weight: 900; font-size: 18px; padding: 0 4px; text-shadow: 0 0 12px rgba(255, 102, 0, 0.5); }
+        
+        .clickable { cursor: pointer; transition: 0.2s; border-bottom: 2px dashed rgba(255, 102, 0, 0.5); padding-bottom: 2px;}
+        .clickable:hover { color: #fff; text-shadow: 0 0 15px var(--point-orange); border-bottom: 2px solid var(--point-orange); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(5px); }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--card-bg); border: 1px solid var(--point-orange); border-radius: 20px; padding: 30px; width: 450px; max-width: 90%; box-shadow: 0 10px 40px rgba(255, 102, 0, 0.2); transform: translateY(-20px); transition: 0.3s; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        .modal-title { font-size: 20px; color: white; font-weight: 800; display:flex; align-items:center; gap: 10px;}
+        .close-btn { background: transparent; border: none; color: var(--text-sub); font-size: 28px; cursor: pointer; transition: 0.2s;}
+        .close-btn:hover { color: var(--point-orange); }
+        .modal-list { list-style: none; max-height: 350px; overflow-y: auto; color: var(--text-main); font-size: 15px; padding-right: 10px;}
+        .modal-list::-webkit-scrollbar { width: 6px; }
+        .modal-list::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 4px; }
+        .modal-list li { padding: 12px 0; border-bottom: 1px dashed var(--border-color); display: flex; gap: 10px;}
+        .modal-list li span.date-badge { background: #334155; padding: 2px 8px; border-radius: 8px; font-size: 12px; color: #cbd5e1; white-space: nowrap; height: fit-content;}
+
+        @media (max-width: 1024px) {
+            body { padding: 15px; }
+            .container { display: flex; flex-direction: column; gap: 20px; }
+            .main-content { display: contents; } 
+            
+            .banner { order: 1; margin-bottom: 0; }
+            .sidebar { order: 2; display: flex; flex-direction: column; gap: 15px; }
+            .win-rate-grid { order: 3; grid-template-columns: 1fr; gap: 15px; margin-bottom: 0; }
+            .sentence-card { order: 4; padding: 20px; font-size: 15px; margin-top: 0; margin-bottom: 0; }
+            .trend-card { order: 5; flex-direction: column; gap: 15px; text-align: center; margin-bottom: 0; }
+            #table-card { order: 6; } 
+            
+            .profile-wrapper { margin-bottom: 0; }
+            .mission-card { margin-bottom: 0; }
+            .win-card { padding: 20px; }
+            .highlight-card { padding: 25px 20px; }
+            .table-wrapper { overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
+            .ai-text { font-size: 15px; }
+            .highlight-name { font-size: 16px; }
+            .modal-content { width: 95%; padding: 20px; }
+            
+            .trend-balls { gap: 4px; }
+            .ball { width: 24px; height: 24px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="card sidebar-card profile-wrapper">
+                <div class="profile-img"><img src="profile.jpg" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+                </div>
+                <h2 style="font-size: 24px; margin-bottom: 10px;">강덕구 ⚾️</h2>
+                <a href="https://www.sooplive.com/station/sdkels" target="_blank" class="btn-broadcast"><i class="fa-solid fa-play"></i> 방송국 바로가기</a>
+
+                <div class="neon-stats-container">
+                    <div class="neon-box neon-yellow neon-short">
+                        <i class="fa-solid fa-star"></i> <span id="stat-favorite">-</span>
+                    </div>
+                    <div class="neon-box neon-red neon-short">
+                        <i class="fa-solid fa-mug-hot"></i> <span id="stat-subscriber">-</span>
+                    </div>
+                    <div class="neon-box neon-green neon-long">
+                        입중계 평균 <i class="fa-solid fa-users" style="font-size: 11px; margin: 0 2px;"></i> <span id="stat-viewer">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card sidebar-card mission-card">
+                <div class="mission-img">
+                    <picture style="width: 100%; height: 100%;">
+                        <source media="(max-width: 1024px)" srcset="mission1_mobile.png">
+                        <img src="mission1_pc.png" alt="노시환 미션" class="responsive-img">
+                    </picture>
+                </div>
+                <div class="mission-title">노시환 홈런 미션 성공률</div>
+                <div style="font-size: 15px; margin-bottom: 5px;" id="mission-nosihwan-stat">( -회 / -회 )</div>
+                <div style="color: var(--text-sub); font-size: 13px;">놓친 별풍선 총 <span class="mission-point" id="mission-nosihwan-point">0</span>개</div>
+            </div>
+
+            <div class="card sidebar-card mission-card" style="margin-bottom: 0;">
+                <div class="mission-title">스포츠토토 베팅 성공률</div>
+                <div style="font-size: 15px; margin-bottom: 5px;" id="mission-toto-stat">( -회 / -회 )</div>
+                <div style="color: var(--text-sub); font-size: 13px;">국민체육진흥공단 기부금 총<br><span class="mission-point" id="mission-toto-point">0</span>원</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="banner">
+                <picture style="width: 100%; height: 100%;">
+                    <source media="(max-width: 1024px)" srcset="banner_mobile.png">
+                    <img src="banner.png" alt="메인 배너" class="responsive-img">
+                </picture>
+            </div>
+
+            <div class="win-rate-grid">
+                <div class="card win-card">
+                    <div class="win-title" style="color: white;">2026 KBO 한화이글스 총 성적<br>
+                        <a href="https://m.sports.naver.com/kbaseball/record/kbo?seasonCode=2026&tab=teamRank" target="_blank" class="rank-link">
+                            전체 순위 확인 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px;"></i>
+                        </a>
+                    </div>
+                    <div style="font-size: 19px; font-weight: bold; margin-bottom: 12px;" id="stat-hanwha">-승 -패</div>
+                    <div class="donut-chart" id="chart-hanwha">
+                        <div class="donut-inner" id="percent-hanwha">0%</div>
+                    </div>
+                </div>
+                
+                <div class="card win-card highlight-card" style="border: 2px solid var(--point-orange);">
+                    <div class="win-title">✨강덕구 입중계 전적✨</div>
+                    <div class="stat-text" id="stat-deokgu">-승 -패</div>
+                    <div class="donut-chart" id="chart-deokgu">
+                        <div class="donut-inner" id="percent-deokgu">0%</div>
+                    </div>
+                </div>
+
+                <div class="card win-card">
+                    <div class="win-title">노덕구 전적 :(<br><span style="font-size:11.5px; font-weight:normal;">(입중계 콘텐츠 시작한 뒤로 집계)</span></div>
+                    <div style="font-size: 19px; font-weight: bold; margin-bottom: 12px;" id="stat-nodeokgu">-승 -패</div>
+                    <div class="donut-chart" id="chart-nodeokgu">
+                        <div class="donut-inner" id="percent-nodeokgu">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sentence-card" id="dynamic-sentence-card">
+                <div class="ai-title-wrapper">
+                    <div class="ai-icon">🤖</div>
+                    <div class="ai-text">입중계 분석 코멘트</div>
+                </div>
+                <div id="dynamic-sentence-text" style="min-height: 30px;">
+                    데이터를 분석 중입니다...
+                </div>
+            </div>
+
+            <div class="card trend-card">
+                <div class="trend-title">덕구 입중계 최근 10경기 🔥</div>
+                <div class="trend-balls" id="trend-container">
+                    </div>
+            </div>
+
+            <div class="card" id="table-card" style="padding: 10px 20px 20px;">
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>결과</th><th>날짜</th><th>상대팀</th><th>구장</th><th>스코어</th><th>선발투수</th><th>마무리투수</th><th>베팅</th><th>자세히</th>
+                            </tr>
+                        </thead>
+                        <tbody id="match-tbody">
+                        </tbody>
+                    </table>
+                    <div id="fade-overlay" class="fade-overlay"></div>
+                </div>
+                <button id="btn-expand" class="btn-expand">모든 경기 보기 ⬇</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="data-modal" class="modal-overlay" onclick="if(event.target===this) closePopup()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title"><i class="fa-solid fa-chart-line" style="color:var(--point-orange)"></i> 선수 기록 상세</div>
+                <button onclick="closePopup()" class="close-btn">&times;</button>
+            </div>
+            <ul id="modal-list" class="modal-list"></ul>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        const tbody = document.getElementById('match-tbody');
+        const trendContainer = document.getElementById('trend-container');
+        
+        const hanwhaRoster = [
+            "류현진", "문동주", "엄상백", "에르난데스", "왕옌청", "화이트", 
+            "김서현", "김도빈", "원종혁", "윤산흠", "강재민", "조동욱", "정우주", "박준영",
+            "황준서", "이민우", "박상원", "김종수", "주현상", "쿠싱",
+            "최재훈", "허인서", "장규현",
+            "노시환", "채은성", "강백호", "심우준", "이도윤", "하주석", "황영묵", "최유빈",
+            "페라자", "김태연", "문현빈", "손아섭", "이진영", "최인호", "오재원"
+        ];
+        
+        window.playerStatsDetail = { pitcher: {}, homerun: {}, error: {} };
+        
+        let deokguWinRate = 0;
+
+        try {
+            if (typeof summaryData !== 'undefined') {
+                summaryData.forEach(row => {
+                    const name = row['구분'] || '';
+                    
+                    if (name.includes('한화') || name.includes('강덕구') || name.includes('노덕구')) {
+                        const w = parseInt(row['승']) || 0;
+                        const l = parseInt(row['패']) || 0;
+                        const total = w + l; 
+                        const rate = total > 0 ? Math.round((w / total) * 100) : 0;
+                        
+                        let targetId = '';
+                        let color = 'var(--point-orange)';
+                        
+                        if (name.includes('한화')) { targetId = 'hanwha'; }
+                        else if (name.includes('강덕구')) { targetId = 'deokgu'; deokguWinRate = rate; } 
+                        else if (name.includes('노덕구')) { targetId = 'nodeokgu'; }
+
+                        if (targetId) {
+                            let rankText = '';
+                            if (targetId === 'hanwha' && row['순위']) {
+                                rankText = ` <span style="font-size: 15px; font-weight: normal;">(${row['순위']}위)</span>`;
+                            }
+                            document.getElementById(`stat-${targetId}`).innerHTML = `${w}승 ${l}패${rankText}`;
+                            document.getElementById(`percent-${targetId}`).innerText = `${rate}%`;
+                            document.getElementById(`chart-${targetId}`).style.background = `conic-gradient(${color} ${rate}%, var(--border-color) 0)`;
+                        }
+                    }
+                    
+                    if (name.includes('노시환')) {
+                        document.getElementById('mission-nosihwan-stat').innerText = `( ${row['성공'] || 0}회 / ${row['목표'] || 0}회 )`;
+                        let rawPoint = String(row['포인트']).replace(/[^0-9]/g, '');
+                        let point = parseInt(rawPoint) || 0;
+                        document.getElementById('mission-nosihwan-point').innerText = point.toLocaleString();
+                    }
+                    else if (name.includes('토토')) {
+                        document.getElementById('mission-toto-stat').innerText = `( ${row['성공'] || 0}회 / ${row['목표'] || 0}회 )`;
+                        let rawPoint = String(row['포인트']).replace(/[^0-9]/g, '');
+                        let point = parseInt(rawPoint) || 0;
+                        document.getElementById('mission-toto-point').innerText = point.toLocaleString();
+                    }
+                    else if (name.includes('즐겨찾기')) {
+                        document.getElementById('stat-favorite').innerText = row['포인트'] !== undefined ? row['포인트'] : '-';
+                    }
+                    else if (name.includes('구독자')) {
+                        document.getElementById('stat-subscriber').innerText = row['포인트'] !== undefined ? row['포인트'] : '-';
+                    }
+                    else if (name.includes('시청자')) {
+                        document.getElementById('stat-viewer').innerText = row['포인트'] !== undefined ? row['포인트'] : '-';
+                    }
+                });
+            }
+
+            if (typeof matchData === 'undefined' || typeof hanwhaRoster === 'undefined') {
+                tbody.innerHTML = `<tr><td colspan="9" style="color: #ef4444; padding: 40px;">🚨 [에러] data.js 파일(명단 포함)을 읽지 못했습니다! 브라우저 새로고침(Cmd+Shift+R)을 꼭 진행해주세요.</td></tr>`;
+                document.getElementById('dynamic-sentence-text').innerText = '데이터를 불러오지 못해 분석할 수 없습니다.';
+            } else if (matchData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="padding: 40px; color: #eab308;">⚠️ 경기 데이터가 0개입니다.</td></tr>`;
+                document.getElementById('dynamic-sentence-text').innerText = '아직 분석할 경기 데이터가 없습니다.';
+            } else {
+                const getDateNum = (dateStr) => {
+                    if(!dateStr) return 0;
+                    const parts = String(dateStr).split('.');
+                    if(parts.length >= 3) {
+                        const y = parts[0].trim();
+                        const m = parts[1].trim().padStart(2, '0');
+                        const d = parts[2].trim().padStart(2, '0');
+                        return parseInt(`${y}${m}${d}`);
+                    }
+                    return 0;
+                };
+                
+                matchData.sort((a, b) => getDateNum(b['날짜']) - getDateNum(a['날짜']));
+
+                const recent10 = matchData.slice(0, 10).reverse();
+                recent10.forEach(match => {
+                    const findValue = (keyword) => {
+                        const foundKey = Object.keys(match).find(key => key.includes(keyword));
+                        return foundKey ? match[foundKey] : '';
+                    };
+                    const rawResult = String(findValue('결과')).toUpperCase();
+                    let resultClass = 'w'; let displayResult = 'W';
+                    if (rawResult.includes('L')) { resultClass = 'l'; displayResult = 'L'; }
+                    else if (rawResult.includes('D')) { resultClass = 'd'; displayResult = 'D'; }
+                    
+                    trendContainer.innerHTML += `<div class="ball ${resultClass}">${displayResult}</div>`;
+                });
+
+                let pitcherWins = {};
+                let homeruns = {};
+                let errors = {};
+
+                matchData.forEach((match, index) => {
+                    const findValue = (keyword) => {
+                        const foundKey = Object.keys(match).find(key => key.includes(keyword));
+                        return foundKey ? match[foundKey] : '';
+                    };
+
+                    const rawResult = String(findValue('결과')).toUpperCase();
+                    let resultClass = 'w'; let displayResult = 'W';
+
+                    if (rawResult.includes('L')) {
+                        resultClass = 'l'; displayResult = 'L';
+                    } else if (rawResult.includes('D')) {
+                        resultClass = 'd'; displayResult = 'D';
+                    }
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'data-row';
+                    if (index >= 4) tr.classList.add('hidden-row');
+
+                    tr.onclick = () => toggleDetail(`detail-${index}`);
+                    
+                    let bettingData = findValue('베팅');
+                    if (bettingData === '' || bettingData === undefined) {
+                        bettingData = findValue('배팅');
+                    }
+                    if (bettingData === '' || bettingData === undefined) {
+                        bettingData = '-';
+                    }
+
+                    tr.innerHTML = `
+                        <td><span class="ball ${resultClass}" style="width: 24px; height: 24px; font-size:12px; margin:0 auto;">${displayResult}</span></td>
+                        <td>${findValue('날짜') || '-'}</td>
+                        <td>${findValue('상대팀') || '-'}</td>
+                        <td>${findValue('구장') || '-'}</td>
+                        <td><strong>${findValue('스코어') || '-'}</strong></td>
+                        <td>${findValue('선발') || '-'}</td> 
+                        <td>${findValue('마무리') || '-'}</td> 
+                        <td style="font-size: 18px;">${bettingData}</td>
+                        <td><button class="btn-detail"><i class="fa-solid fa-arrow-down"></i></button></td>
+                    `;
+                    
+                    const detailTr = document.createElement('tr');
+                    detailTr.id = `detail-${index}`;
+                    detailTr.className = 'detail-row';
+                    
+                    const keys = Object.keys(match);
+                    const lastKey = keys[keys.length - 1]; 
+                    let detailText = String(match[lastKey] || '');
+                    if (detailText.trim() === '') {
+                        detailText = '상세 내용이 기록되지 않았습니다.';
+                    }
+
+                    const matchDate = findValue('날짜') || '날짜미상';
+                    const matchOpponent = findValue('상대팀') || '상대미상';
+
+                    const pitcher = findValue('선발') || '';
+                    if (pitcher.includes('(승)')) {
+                        hanwhaRoster.forEach(player => {
+                            if (pitcher.includes(player)) {
+                                pitcherWins[player] = (pitcherWins[player] || 0) + 1;
+                                if(!window.playerStatsDetail.pitcher[player]) window.playerStatsDetail.pitcher[player] = [];
+                                window.playerStatsDetail.pitcher[player].push({ date: matchDate, opp: matchOpponent, desc: '선발 승리' });
+                            }
+                        });
+                    }
+
+                    const lines = detailText.split('\n');
+                    lines.forEach(line => {
+                        if (line.includes('홈런') && line.includes(':')) {
+                            let data = line.split(':')[1];
+                            if(data) {
+                                data.split(',').forEach(item => {
+                                    hanwhaRoster.forEach(player => {
+                                        if(item.includes(player)) {
+                                            homeruns[player] = (homeruns[player] || 0) + 1;
+                                            if(!window.playerStatsDetail.homerun[player]) window.playerStatsDetail.homerun[player] = [];
+                                            window.playerStatsDetail.homerun[player].push({ date: matchDate, opp: matchOpponent, desc: item.trim() });
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                        if (line.includes('실책') && line.includes(':')) {
+                            let data = line.split(':')[1];
+                            if(data) {
+                                data.split(',').forEach(item => {
+                                    hanwhaRoster.forEach(player => {
+                                        if(item.includes(player)) {
+                                            errors[player] = (errors[player] || 0) + 1;
+                                            if(!window.playerStatsDetail.error[player]) window.playerStatsDetail.error[player] = [];
+                                            window.playerStatsDetail.error[player].push({ date: matchDate, opp: matchOpponent, desc: item.trim() });
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                    });
+
+                    let summaryHtml = '';
+                    let recordHtml = '';
+                    let rawText = detailText;
+
+                    if (rawText.includes('📝 기록 :')) {
+                        const splitParts = rawText.split('📝 기록 :');
+                        const aiPart = splitParts[0].replace('💡경기 내용 AI 요약 :', '').trim();
+                        const recordPart = splitParts[1].trim();
+
+                        summaryHtml = `
+                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #60a5fa;">
+                                <div style="font-weight: bold; color: #60a5fa; margin-bottom: 8px;">💡 경기 내용 AI 요약</div>
+                                <div style="color: #cbd5e1; line-height: 1.6;">${aiPart.replace(/\n/g, '<br>')}</div>
+                            </div>
+                        `;
+                        recordHtml = `
+                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border-left: 4px solid var(--point-orange);">
+                                <div style="font-weight: bold; color: var(--point-orange); margin-bottom: 8px;">📝 기록</div>
+                                <div style="color: #cbd5e1; line-height: 1.6;">${recordPart.replace(/\n/g, '<br>')}</div>
+                            </div>
+                        `;
+                    } else {
+                        recordHtml = `
+                            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border-left: 4px solid var(--point-orange);">
+                                <div style="font-weight: bold; color: var(--point-orange); margin-bottom: 8px;">📝 상세 내용</div>
+                                <div style="color: #cbd5e1; line-height: 1.6;">${rawText.replace(/\n/g, '<br>')}</div>
+                            </div>
+                        `;
+                    }
+                    
+                    detailTr.innerHTML = `
+                        <td colspan="9">
+                            <div class="detail-content">
+                                <div style="width: 100%;">
+                                    ${summaryHtml}
+                                    ${recordHtml}
+                                </div>
+                            </div>
+                        </td>
+                    `;
+                    
+                    tbody.appendChild(tr);
+                    tbody.appendChild(detailTr);
+                });
+
+                const getTopPlayer = (dict, type) => {
+                    let maxCount = 0; 
+                    let topName = '';
+                    for (const [name, count] of Object.entries(dict)) {
+                        if (count > maxCount) { 
+                            maxCount = count; 
+                            topName = name; 
+                        }
+                    }
+                    if (!topName) {
+                        return type === 'pitcher' ? '어떤 선발 투수' : '어떤 선수';
+                    }
+                    return topName;
+                };
+
+                const topPitcher = getTopPlayer(pitcherWins, 'pitcher');
+                const topHomerun = getTopPlayer(homeruns, 'homerun');
+                const topError = getTopPlayer(errors, 'error');
+
+                const getJosaOnly = (word, type) => {
+                    if (!word || word === '어떤 선발 투수' || word === '어떤 선수' || !/[가-힣]/.test(word)) {
+                        return (type === '이가' ? '가' : '는');
+                    }
+                    const lastChar = word.charCodeAt(word.length - 1);
+                    const hasJongseong = (lastChar - 44032) % 28 > 0;
+                    return (type === '이가' ? (hasJongseong ? '이' : '가') : (hasJongseong ? '은' : '는'));
+                };
+
+                const createClickableName = (name, type) => {
+                    if (name === '어떤 선발 투수' || name === '어떤 선수') return `<span class="highlight-name">${name}</span>`;
+                    return `<span class="highlight-name clickable" onclick="openPopup('${name}', '${type}')">${name}</span>`;
+                };
+
+                let rateBriefing = "";
+                if (deokguWinRate <= 25) {
+                    rateBriefing = "아직은 눈물 없이 볼 수 없는 '비공식 패배 토템'이에요😂. ";
+                } else if (deokguWinRate <= 30) {
+                    rateBriefing = "여전히 명실상부 이글스의 패배 요정이에요🥲. ";
+                } else if (deokguWinRate <= 35) {
+                    rateBriefing = "이글스의 승리를 간절히 기도하지만, 현실은 여전히 패배의 기운이 조금 더 강한 상태예요. ";
+                } else if (deokguWinRate <= 49) {
+                    rateBriefing = "패배 요정 탈출을 위해 부단히 발버둥 치며, 승률 4할 고지를 코 앞에 두고 눈치 게임 중인 단계예요. ";
+                } else {
+                    rateBriefing = "드디어 패배 요정 타이틀을 내던지고, 당당히 승리를 부르는 이글스의 '승리 요정'으로 거듭났습니다. ";
+                }
+
+                const sentence = `${rateBriefing}참고로, 덕구가 입중계를 할 때면 ${createClickableName(topHomerun, 'homerun')}${getJosaOnly(topHomerun, '이가')} 홈런을 빵빵 터트려주고 있으며, ${createClickableName(topPitcher, 'pitcher')}${getJosaOnly(topPitcher, '이가')} 선발 투수로서 제일 뛰어난 활약을 보이고 있고, ${createClickableName(topError, 'error')}${getJosaOnly(topError, '이가')} 가장 많은 실책을 저지르고 있습니다.`;
+                
+                const targetElement = document.getElementById('dynamic-sentence-text');
+                
+                function typeWriter(element, html, speed) {
+                    element.innerHTML = '';
+                    let i = 0;
+                    let isTag = false;
+                    let currentHTML = '';
+                    
+                    function type() {
+                        if (i < html.length) {
+                            let char = html.charAt(i);
+                            currentHTML += char;
+                            if (char === '<') isTag = true;
+                            if (char === '>') isTag = false;
+                            
+                            if (isTag) {
+                                i++;
+                                type(); 
+                            } else {
+                                element.innerHTML = currentHTML + '<span class="cursor">|</span>';
+                                i++;
+                                setTimeout(type, speed);
+                            }
+                        } else {
+                            element.innerHTML = currentHTML; 
+                        }
+                    }
+                    setTimeout(type, 500);
+                }
+
+                typeWriter(targetElement, sentence, 40); 
+            }
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="9" style="color: #ef4444; padding: 40px;">🚨 화면 렌더링 에러: ${error.message}</td></tr>`;
+        }
+
+        function toggleDetail(id) {
+            const detailRow = document.getElementById(id);
+            if(detailRow.style.display === 'table-row') {
+                detailRow.style.display = 'none';
+            } else {
+                detailRow.style.display = 'table-row';
+            }
+        }
+
+        function openPopup(playerName, type) {
+            let dataList = [];
+            let titleText = '';
+            
+            if (type === 'pitcher') { dataList = window.playerStatsDetail.pitcher[playerName]; titleText = '선발 승리 기록'; }
+            if (type === 'homerun') { dataList = window.playerStatsDetail.homerun[playerName]; titleText = '홈런 기록'; }
+            if (type === 'error') { dataList = window.playerStatsDetail.error[playerName]; titleText = '실책 기록'; }
+
+            const listEl = document.getElementById('modal-list');
+            listEl.innerHTML = '';
+
+            if (dataList && dataList.length > 0) {
+                dataList.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span class="date-badge">${item.date} vs ${item.opp}</span> <span>${item.desc}</span>`;
+                    listEl.appendChild(li);
+                });
+            } else {
+                listEl.innerHTML = '<li>기록을 찾을 수 없습니다.</li>';
+            }
+
+            document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-chart-line" style="color:var(--point-orange)"></i> ${playerName} ${titleText}`;
+            document.getElementById('data-modal').classList.add('active');
+        }
+
+        function closePopup() {
+            document.getElementById('data-modal').classList.remove('active');
+        }
+
+        document.getElementById('btn-expand').addEventListener('click', function() {
+            const hiddenRows = document.querySelectorAll('.hidden-row');
+            const fadeOverlay = document.getElementById('fade-overlay');
+            
+            if (hiddenRows.length > 0) {
+                hiddenRows.forEach(row => {
+                    row.style.display = 'table-row';
+                    row.classList.remove('hidden-row');
+                    row.classList.add('expanded-row');
+                });
+                this.innerHTML = '접기 <i class="fa-solid fa-arrow-up"></i>';
+                fadeOverlay.classList.add('hidden'); 
+            } else {
+                const expandedRows = document.querySelectorAll('.expanded-row');
+                expandedRows.forEach(row => {
+                    row.style.display = 'none';
+                    row.classList.remove('expanded-row');
+                    row.classList.add('hidden-row');
+                    
+                    const nextDetail = row.nextElementSibling;
+                    if(nextDetail && nextDetail.classList.contains('detail-row')) {
+                        nextDetail.style.display = 'none';
+                    }
+                });
+                this.innerHTML = '모든 경기 보기 <i class="fa-solid fa-arrow-down"></i>';
+                fadeOverlay.classList.remove('hidden'); 
+            }
+        });
+    </script>
+</body>
+</html>
