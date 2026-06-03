@@ -115,7 +115,14 @@
         .fade-overlay.hidden { opacity: 0; }
 
         .detail-row { display: none; background: #162032; }
-        .detail-content { padding: 20px; text-align: left; font-size: 14px; color: #cbd5e1; }
+        .detail-content { 
+    padding: 20px; 
+    text-align: left; 
+    font-size: 14px; 
+    color: #cbd5e1; 
+    white-space: normal; /* 추가: 강제 줄바꿈 허용 */
+    word-break: keep-all; /* 추가: 단어 단위로 깔끔하게 끊기 */
+}
         
         .sentence-card { 
             text-align: left; 
@@ -177,6 +184,15 @@
             
             .trend-balls { gap: 4px; }
             .ball { width: 24px; height: 24px; font-size: 12px; }
+            .detail-row td {
+        padding: 0; 
+    }
+    .detail-content {
+        position: sticky;
+        left: 0;
+        width: calc(100vw - 70px); /* 스마트폰 화면 여백을 뺀 정확한 너비 계산 */
+        box-sizing: border-box;
+    }
         }
     </style>
 </head>
