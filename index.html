@@ -539,8 +539,10 @@
 
                     const lines = detailText.split('\n');
                     lines.forEach(line => {
-                        if (line.includes('홈런') && line.includes(':')) {
-                            let data = line.split(':')[1];
+                        // 💡 수정: 콜론(:) 앞부분의 단어가 정확히 '홈런'인지 검사하여 결승타 중복 집계 방지
+                        let parts = line.split(':');
+                        if (parts.length >= 2 && parts[0].trim() === '홈런') {
+                            let data = parts[1];
                             if(data) {
                                 data.split(',').forEach(item => {
                                     hanwhaRoster.forEach(player => {
