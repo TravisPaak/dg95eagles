@@ -43,8 +43,46 @@
         .profile-wrapper { text-align: center; margin-bottom: 20px; }
         .profile-img { width: 125px; height: 125px; border-radius: 50%; background: #334155; margin: 0 auto 15px; border: 4px solid var(--point-orange); box-shadow: 0 0 20px rgba(255, 102, 0, 0.3); display: flex; align-items: center; justify-content: center; font-size: 45px; color: var(--text-sub); overflow: hidden;}
         
-        .btn-broadcast { background: var(--point-orange); color: white; padding: 8px 24px; border-radius: 20px; font-weight: 800; font-size: 14px; display: inline-block; margin-bottom: 15px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3); }
-        .btn-broadcast:hover { background: #e65c00; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4); }
+        /* 💡 수정된 버튼 스타일 (SOOP & 팬카페) */
+        .btn-group { 
+    display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; width: 100%;
+}
+
+.btn-link { 
+    color: white; 
+    padding: 8px 10px; /* 💡 좌우 여백을 줄여 캡슐을 날씬하게 변경 */
+    border-radius: 20px; 
+    font-weight: 800; 
+    font-size: 13.5px; 
+    text-decoration: none; 
+    transition: 0.2s; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 6px; /* 💡 로고 이미지와 글자 사이의 간격 */
+    min-width: 0; /* 글자 잘림 방지 */
+}
+
+/* 💡 기존 .btn-logo 코드를 지우고 아래 내용으로 교체 */
+.btn-logo {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: middle;
+}
+/* 💡 묘하게 작고 위로 쏠린 팬카페 로고만 저격해서 크우고 정렬 맞추기 */
+.btn-naver .btn-logo {
+    width: 21px;  /* 탕짜 크기를 16px에서 18.5px로 살짝 키움 */
+    height: 21px;
+    transform: translateY(0.5px); /* 위로 쏠린 로고를 아래로 0.5픽셀 미세 조정 */
+}
+        
+        .btn-soop { background: #2b6bf3; box-shadow: 0 4px 15px rgba(43, 107, 243, 0.3); }
+        .btn-soop:hover { background: #1e52c8; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(43, 107, 243, 0.4); }
+        
+        .btn-naver { background: #00c73ce5; box-shadow: 0 4px 15px rgba(3, 199, 90, 0.3); }
+        .btn-naver:hover { background: #02a84b; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(3, 199, 90, 0.4); }
         
         .neon-stats-container { display: flex; flex-direction: row; justify-content: center; gap: 6px; margin-top: 15px; width: 100%; align-items: stretch; }
         .neon-box { background: rgba(0,0,0,0.4); border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; white-space: nowrap; font-family: 'Poppins', 'Noto Sans KR', sans-serif; }
@@ -144,14 +182,13 @@
         .cursor { display: inline-block; width: 2px; animation: blink 1s step-end infinite; color: var(--point-orange); font-weight: bold; margin-left: 2px;}
         @keyframes blink { 50% { opacity: 0; } }
         
-/* 입중계 요약 코멘트 내 선수 이름 네온사인 효과 복구 */
-.highlight-name { 
-    color: var(--point-orange); 
-    font-weight: 900; 
-    font-size: 18px; 
-    padding: 0 4px; 
-    text-shadow: 0 0 12px rgba(255, 102, 0, 0.5); /* 💡 이 한 줄이 네온의 핵심입니다 */
-}     
+        .highlight-name { 
+            color: var(--point-orange); 
+            font-weight: 900; 
+            font-size: 18px; 
+            padding: 0 4px; 
+            text-shadow: 0 0 12px rgba(255, 102, 0, 0.5); 
+        }     
         .clickable { cursor: pointer; transition: 0.2s; border-bottom: 2px dashed rgba(255, 102, 0, 0.5); padding-bottom: 2px;}
         .clickable:hover { color: #fff; text-shadow: 0 0 15px var(--point-orange); border-bottom: 2px solid var(--point-orange); }
 
@@ -180,7 +217,7 @@
             .sentence-card { order: 4; padding: 20px; font-size: 15px; margin-top: 0; margin-bottom: 0; }
             .trend-card { order: 5; flex-direction: column; gap: 15px; text-align: center; margin-bottom: 0; }
             #table-card { order: 6; } 
-            #chart-card { order: 7; margin-top: 0; } /* 💡 이 줄을 추가해 주세요! */
+            #chart-card { order: 7; margin-top: 0; } 
             
             .profile-wrapper { margin-bottom: 0; }
             .mission-card { margin-bottom: 0; }
@@ -201,10 +238,10 @@
                 box-sizing: border-box;
             }
             .modal-list {
-        white-space: pre-wrap; 
-        word-break: break-word;
-        overflow-wrap: break-word;
-    }
+                white-space: pre-wrap; 
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
         }
     </style>
 </head>
@@ -216,17 +253,22 @@
                 <div class="profile-img"><img src="profile.jpg" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
                 </div>
                 <h2 style="font-size: 24px; margin-bottom: 10px;">강덕구 ⚾️</h2>
-                <a href="https://www.sooplive.com/station/sdkels" target="_blank" class="btn-broadcast"><i class="fa-solid fa-play"></i> 방송국 바로가기</a>
+                
+                <div class="btn-group">
+    <!-- 🔵 SOOP 버튼 (공식 파비콘 로고 적용) -->
+    <a href="https://www.sooplive.com/station/sdkels" target="_blank" class="btn-link btn-soop">
+        <img src="https://www.sooplive.com/favicon.ico" class="btn-logo" alt="SOOP"> SOOP
+    </a>
+    
+    <!-- 🟢 네이버 팬카페 버튼 (공식 카페 찻잔 로고 적용) -->
+    <a href="https://cafe.naver.com/kduck9" target="_blank" class="btn-link btn-naver">
+        <img src="naver_icon.png" class="btn-logo" alt="CAFE"> 팬카페
+</a>
+</div>
 
                 <div class="neon-stats-container">
-                    <div class="neon-box neon-yellow neon-short">
-                        <i class="fa-solid fa-star"></i> <span id="stat-favorite">-</span>
-                    </div>
-                    <div class="neon-box neon-red neon-short">
-                        <i class="fa-solid fa-mug-hot"></i> <span id="stat-subscriber">-</span>
-                    </div>
-                    <div class="neon-box neon-green neon-long">
-                        입중계 평균 <i class="fa-solid fa-users" style="font-size: 11px; margin: 0 2px;"></i> <span id="stat-viewer">-</span>
+                    <div class="neon-box neon-red neon-long">
+                        입중계 누적 <i class="fa-regular fa-clock" style="font-size: 13px; margin: 0 4px;"></i> <span id="stat-viewer">-</span>
                     </div>
                 </div>
             </div>
@@ -319,14 +361,13 @@
                 </div>
                 <button id="btn-expand" class="btn-expand">모든 경기 보기 ⬇</button>
             </div>
-            <!-- 💡 새로 추가하는 승률 추이 그래프 카드 -->
+
             <div class="card" id="chart-card" style="margin-top: 30px;">
                 <div class="trend-title" style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
                     <div><i class="fa-solid fa-chart-area" style="color:var(--point-orange)"></i> 입중계 승률 추이</div>
 <button id="btn-chart-toggle" class="toggle-btn">월별 보기 📅</button>
 
 <style>
-    /* 💡 버튼 클래스 별도 정의 */
     .toggle-btn {
         background: rgba(249, 134, 231, 0.1);
         color: #f986e7;
@@ -339,11 +380,9 @@
         font-weight: bold;
         transition: all 0.2s ease;
     }
-    
-    /* 💡 마우스를 올렸을 때 액션 감지 */
     .toggle-btn:hover {
-        background: rgba(249, 134, 231, 0.25); /* 살짝 더 진한 핑크 */
-        transform: translateY(-1px); /* 살짝 떠오르는 효과 */
+        background: rgba(249, 134, 231, 0.25); 
+        transform: translateY(-1px); 
     }
 </style>
                 </div>
@@ -375,7 +414,6 @@
         const trendContainer = document.getElementById('trend-container');
         
         const hanwhaRoster = [
-            // 1. 투수 (동명이인 파싱 오류 방지를 위해 박준영2를 먼저 배치)
             "박준영2", "박준영",
             "류현진", "문동주", "윤대경", "엄상백", "에르난데스", "왕옌청", "화이트", "김서현", 
             "김도빈", "원종혁", "윤산흠", "강재민", "조동욱", "정우주", "황준서", "이민우", 
@@ -383,16 +421,10 @@
             "장민재", "박재규", "김범준", "배민서", "양수호", "김민우", "권민규", "강건우", 
             "하동준", "이기창", "양선률", "한서구", "양경모", "이동영", "엄상현", "엄요셉", 
             "박부성", "김관우", "김겸재", "여현승", "황희성",
-
-            // 2. 포수
             "최재훈", "이재원", "허관회", "박상언", "장규현", "허인서", "정우성", "김지현",
-
-            // 3. 내야수
             "정민규", "최원준", "이지성", "이도윤", "한경빈", "심우준", "노시환", "하주석", 
             "채은성", "정은원", "강백호", "김건", "박정현", "최유빈", "황영묵", "배승수", 
             "노석진", "권현규", "김준수", "이민준",
-
-            // 4. 외야수
             "임종찬", "이진영", "권광민", "김태연", "페라자", "유로결", "한지윤", "이원석", 
             "최인호", "문현빈", "오재원", "유민", "박상목", "김동휘", "최윤호", "김해찬", 
             "이재환", "박주진", "이도훈"
@@ -467,13 +499,8 @@
                         let rawGet = String(row['획득'] || '0').replace(/[^0-9]/g, '');
                         document.getElementById('mission-toto-get').innerText = (parseInt(rawGet) || 0).toLocaleString();
                     }
-                    else if (name.includes('즐겨찾기')) {
-                        document.getElementById('stat-favorite').innerText = row['포인트'] !== undefined ? row['포인트'] : '-';
-                    }
-                    else if (name.includes('구독자')) {
-                        document.getElementById('stat-subscriber').innerText = row['포인트'] !== undefined ? row['포인트'] : '-';
-                    }
-                    else if (name.includes('시청자')) {
+                    // 💡 구글 시트의 항목 이름이 '시청자' 이거나 '총합' 이어도 데이터를 인식하도록 수정 완료
+                    else if (name.includes('시청자') || name.includes('총합')) {
                         document.getElementById('stat-viewer').innerText = row['포인트'] !== undefined ? row['포인트'] : '-';
                     }
                 });
@@ -588,7 +615,6 @@
                     const lines = detailText.split('\n');
                     lines.forEach(line => {
                         let parts = line.split(':');
-                        // 💡 1. '홈런' 파싱 수정 (앞에 *가 있어도 인식하도록)
                         if (parts.length >= 2 && parts[0].trim().replace('*', '') === '홈런') {
                             let data = parts[1];
                             if(data) {
@@ -604,10 +630,8 @@
                             }
                         }
                         
-                        // 💡 2. '자책' 파싱 수정 (line.includes('자책')은 그대로 두어도 무방합니다)
                         if (line.includes('자책') && line.includes(':')) {
                             let dataStr = line.split(':')[1];
-                            // 정규식은 그대로 두셔도 됩니다 (숫자와 이닝만 추출하므로)
                             let regex = /([가-힣a-zA-Z]+)\s*\(\s*(\d+)점\s*\/\s*([0-9\.\s⅓⅔]+)이닝\)/g;
                             let matchResult;
                             
@@ -616,7 +640,6 @@
                                 let er = parseInt(matchResult[2], 10);
                                 let ipStr = matchResult[3].trim();
 
-                                // ... 이하 이닝 계산 로직 동일 ...
                                 let ipVal = 0;
                                 let strClean = ipStr.replace(/\s+/g, '');
                                 if (strClean.includes('⅓')) { ipVal = (parseFloat(strClean.replace('⅓', '')) || 0) + 1/3; }
@@ -706,16 +729,15 @@
                 let topEraPitcher = '어떤 투수';
 
                 for (const [pName, er] of Object.entries(pitcherER)) {
-    let ip = pitcherIP[pName] || 0;
-    // 💡 최소 5이닝 이상 던진 선발급 투수들 중에서만 워스트를 뽑도록 조건 추가
-    if (ip >= 5) { 
-        let era = (er * 9) / ip;
-        if (era > maxEra) {
-            maxEra = era;
-            topEraPitcher = pName;
-        }
-    }
-}
+                    let ip = pitcherIP[pName] || 0;
+                    if (ip >= 5) { 
+                        let era = (er * 9) / ip;
+                        if (era > maxEra) {
+                            maxEra = era;
+                            topEraPitcher = pName;
+                        }
+                    }
+                }
 
                 const getJosaOnly = (word, type) => {
                     if (!word || word === '어떤 선발 투수' || word === '어떤 투수' || word === '어떤 선수' || !/[가-힣]/.test(word)) {
@@ -727,12 +749,10 @@
                 };
 
                 const createClickableName = (name, type) => {
-    // 💡 주황색 및 네온 효과는 위 CSS(.highlight-name)에서 자동으로 적용됩니다!
-    if (name === '어떤 선발 투수' || name === '어떤 투수' || name === '어떤 선수') 
-        return `<span class="highlight-name">${name}</span>`;
-    
-    return `<span class="highlight-name clickable" onclick="openPopup('${name}', '${type}')">${name}</span>`;
-};
+                    if (name === '어떤 선발 투수' || name === '어떤 투수' || name === '어떤 선수') 
+                        return `<span class="highlight-name">${name}</span>`;
+                    return `<span class="highlight-name clickable" onclick="openPopup('${name}', '${type}')">${name}</span>`;
+                };
 
                 let rateBriefing = "";
                 if (deokguWinRate <= 25) {
@@ -853,14 +873,12 @@
                 fadeOverlay.classList.remove('hidden'); 
             }
         });
-        // 💡 승률 추이 그래프 그리기 (전체/월별 토글 기능 포함)
-        let winRateChartInstance = null; // 차트 중복 생성을 막기 위한 변수
-        let isMonthlyView = false; // 현재 뷰 상태
+
+        let winRateChartInstance = null; 
+        let isMonthlyView = false; 
 
         setTimeout(() => {
             if (typeof matchData !== 'undefined' && matchData.length > 0) {
-                
-                // 1. 데이터 정렬
                 const getChartDateNum = (dateStr) => {
                     if(!dateStr) return 0;
                     const parts = String(dateStr).split('.');
@@ -879,11 +897,8 @@
                     return getChartDateNum(a[dateA]) - getChartDateNum(b[dateB]);
                 });
 
-                // 2. [전체 누적 데이터] 세팅
                 let totalW = 0, totalL = 0;
                 let dailyLabels = [], dailyRates = [], dailyTooltips = [];
-
-                // 3. [월별 데이터] 세팅을 위한 분류통
                 let monthlyStats = {};
 
                 chartData.forEach(match => {
@@ -899,7 +914,6 @@
                     if (res.includes('W')) { totalW++; resultText = '승'; isWin = true; }
                     else if (res.includes('L')) { totalL++; resultText = '패'; isLoss = true; }
 
-                    // --- 전체 누적 계산 ---
                     const totalGames = totalW + totalL;
                     const rate = totalGames > 0 ? Math.round((totalW / totalGames) * 100) : 0;
                     let shortDate = match[dateKey] ? match[dateKey].replace('2026. ', '') : '';
@@ -908,7 +922,6 @@
                     dailyRates.push(rate);
                     dailyTooltips.push({ opp: match[oppKey] || '-', score: match[scoreKey] || '-', result: resultText });
 
-                    // --- 월별 데이터 계산 ---
                     let monthMatch = match[dateKey] ? match[dateKey].match(/\d{4}\.\s*(\d+)\./) : null;
                     if (monthMatch) {
                         let monthStr = monthMatch[1] + '월';
@@ -920,7 +933,6 @@
                     }
                 });
 
-                // 월별 배열 완성하기
                 let monthlyLabels = Object.keys(monthlyStats);
                 let monthlyRates = [];
                 let monthlyTooltips = [];
@@ -936,11 +948,9 @@
                     });
                 });
 
-                // 4. 차트 그리는 함수
                 const renderChart = () => {
                     const ctx = document.getElementById('winRateChart').getContext('2d');
                     
-                    // 기존 차트가 있으면 파괴(Destroy) 후 다시 그림
                     if (winRateChartInstance) {
                         winRateChartInstance.destroy();
                     }
@@ -953,7 +963,6 @@
                     const currentData = isMonthlyView ? monthlyRates : dailyRates;
 
                     winRateChartInstance = new Chart(ctx, {
-                        // 💡 핵심: 월별 뷰일 때는 'bar(막대)', 아닐 때는 'line(선)'으로 타입 변경!
                         type: isMonthlyView ? 'bar' : 'line', 
                         data: {
                             labels: currentLabels,
@@ -961,13 +970,10 @@
                                 label: isMonthlyView ? '월별 승률 (%)' : '누적 승률 (%)',
                                 data: currentData,
                                 borderColor: '#FF6600',
-                                // 💡 1. 막대 색상을 반투명(0.5) 오렌지로 변경
                                 backgroundColor: isMonthlyView ? 'rgba(255, 102, 0, 0.5)' : gradient, 
-                                // 💡 2. 반투명한 막대에 얇은 선명한 테두리를 둘러서 또렷하게
                                 borderWidth: isMonthlyView ? 2 : 3, 
                                 borderRadius: isMonthlyView ? 6 : 0,
                                 maxBarThickness: 60,
-                                // 💡 3. 승률 0%일 때도 툴팁을 띄울 수 있도록 최소 막대 높이 5px 보장
                                 minBarLength: isMonthlyView ? 5 : undefined, 
                                 pointBackgroundColor: '#1e293b',
                                 pointBorderColor: '#FF6600',
@@ -1041,38 +1047,31 @@
                     });
                 };
 
-                // 초기 차트 렌더링 (전체 뷰)
                 renderChart();
 
-                // 5. 토글 버튼 클릭 이벤트
                 const toggleBtn = document.getElementById('btn-chart-toggle');
                 if (toggleBtn) {
                     toggleBtn.addEventListener('click', function() {
-                        isMonthlyView = !isMonthlyView; // 상태 뒤집기
+                        isMonthlyView = !isMonthlyView; 
                         
-                        // 버튼 텍스트 변경
                         if (isMonthlyView) {
                             this.innerHTML = '전체 경기 보기 🔄';
-                            // 💡 아래 한 줄만 교체! (기존: this.style.color = '#FF6600';)
                             this.style.color = '#f986e7'; 
                         } else {
                             this.innerHTML = '월별 보기 📅';
-                            // 💡 여기도 교체! (기존: this.style.color = 'var(--text-main)';)
                             this.style.color = '#f986e7'; 
                         }
-                        
-                        // 차트 다시 그리기
                         renderChart();
                     });
                 }
             }
         }, 100);
-        // 💡 ESC 키 누르면 팝업 닫기
-window.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closePopup();
-    }
-});
+
+        window.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closePopup();
+            }
+        });
     </script>
 </body>
 </html>
