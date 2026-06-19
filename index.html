@@ -12,6 +12,15 @@
     <title>강덕구 x 한화 입중계 아카이브 대시보드</title>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff');
+        @import url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff');
+    /* 💡 진짜 코딩용 폰트(Roboto Mono)를 외부에서 강제로 수입해오는 코드입니다 */
+     @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap');
+     @import url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff');
+    /* 💡 제미나이 코드창, 깃허브, 최신 개발 툴에서 표준으로 쓰는 고급 코딩 폰트 도입 */
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&display=swap');
+    @import url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff');
+    /* 💡 윈도우와 맥 모두에서 완벽한 Consolas 핏을 구현하기 위한 구글 폰트 주입 */
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@600;700&display=swap');
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
@@ -41,7 +50,7 @@
         .sidebar-card { padding: 20px; } 
         
         .profile-wrapper { text-align: center; margin-bottom: 20px; }
-        .profile-img { width: 125px; height: 125px; border-radius: 50%; background: #334155; margin: 0 auto 15px; border: 4px solid var(--point-orange); box-shadow: 0 0 20px rgba(255, 102, 0, 0.3); display: flex; align-items: center; justify-content: center; font-size: 45px; color: var(--text-sub); overflow: hidden;}
+        .profile-img { width: 105px; height: 105px; border-radius: 50%; background: #334155; margin: 0 auto 5px; border: 4px solid var(--point-orange); box-shadow: 0 0 20px rgba(255, 102, 0, 0.3); display: flex; align-items: center; justify-content: center; font-size: 45px; color: var(--text-sub); overflow: hidden;}
         
         /* 💡 수정된 버튼 스타일 (SOOP & 팬카페) */
         .btn-group { 
@@ -98,8 +107,84 @@
         .mission-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
         .mission-point { color: var(--point-orange); font-size: 20px; font-weight: 900; }
 
-        .banner { width: 100%; height: 140px; background-color: rgba(255, 255, 255, 0.05); border: none; border-radius: var(--radius); margin-bottom: 30px; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 14px; overflow: hidden; position: relative;}
-        
+       
+/* 💡 배너 기본 틀 고정 */
+.banner { 
+    width: 100%; 
+    height: 140px; 
+    border-radius: var(--radius); 
+    margin-bottom: 30px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    overflow: hidden; 
+    position: relative;
+    background: #151e2e; 
+    z-index: 1;
+}
+
+/* ☄️ 꼬리를 짧게, 속도는 빠르게, 그리고 영롱한 글로우 효과를 추가했어요 */
+.banner::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 800%; 
+    
+background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 220deg,
+    /* 💡 1. 꼬리: 머리와 동일한 파란색(109, 144, 241)에 투명도 0.1(10%) 적용 */
+    rgba(249, 134, 231, 0.1) 220deg, 
+    
+    /* 💡 2. 머리: 동일한 파란색에 투명도 1(100% 완전 선명함) 적용 */
+    rgb(249, 134, 231) 360deg  
+);
+
+/* 💡 빛이 밖으로 뽀얗게 번지는 글로우 효과 (필수!) */
+filter: blur(6px);
+    
+    /* 💡 속도를 다시 4초로 당겨서 스포티하고 경쾌하게 돌려요 */
+    animation: rotateGlow 5s linear infinite; 
+    z-index: -2;
+}
+
+/* 💡 2px 두께만 남기고 안쪽을 깔끔하게 가려주는 마스크 */
+.banner::after {
+    content: '';
+    position: absolute;
+    inset: 2px; 
+    background: #151e2e; 
+    border-radius: calc(var(--radius) - 2px);
+    z-index: -1;
+}
+
+/* 🖼️ 이미지가 2px 테두리 안쪽에 정밀하게 안착하도록 강제 고정 */
+.banner picture {
+    position: absolute !important;
+    top: 2px !important;
+    left: 2px !important;
+    width: calc(100% - 4px) !important;
+    height: calc(100% - 4px) !important;
+    border-radius: calc(var(--radius) - 2px);
+    overflow: hidden;
+    z-index: 2;
+}
+
+.banner .responsive-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+}
+
+/* 🔄 중심축을 기준으로 그라디언트를 회전시킴 */
+@keyframes rotateGlow {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
         .responsive-img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
         .rank-link { color: #60a5fa; font-size: 12.5px; font-weight: normal; text-decoration: none; transition: 0.2s; display: inline-block; margin-top: 2px; }
@@ -252,9 +337,11 @@
             <div class="card sidebar-card profile-wrapper">
                 <div class="profile-img"><img src="profile.jpg" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
                 </div>
-                <h2 style="font-size: 24px; margin-bottom: 10px;">강덕구 ⚾️</h2>
-                
-                <div class="btn-group">
+<h2 style="font-size: 24px; margin-bottom: -5px;">강덕구</h2>
+
+<!-- 💡 font-family 1순위를 Consolas로 지정하고, 맥북을 위해 Inconsolata와 monospace 백업까지 세팅 완료! -->
+<div id="dashboard-update-date" style="font-size: 14px; color: #009b98; margin-bottom: 14px; font-family: 'Consolas', 'Inconsolata', ui-monospace, monospace; font-weight: 700; letter-spacing: -0.2px; word-spacing: -2.5px;"></div>                
+<div class="btn-group">
     <!-- 🔵 SOOP 버튼 (공식 파비콘 로고 적용) -->
     <a href="https://www.sooplive.com/station/sdkels" target="_blank" class="btn-link btn-soop">
         <img src="https://www.sooplive.com/favicon.ico" class="btn-logo" alt="SOOP"> SOOP
@@ -301,17 +388,19 @@
             </div>
 
             <div class="win-rate-grid">
-                <div class="card win-card">
-                    <div class="win-title" style="color: white;">2026 KBO 한화 이글스 성적<br>
-                        <a href="https://m.sports.naver.com/kbaseball/record/kbo?seasonCode=2026&tab=teamRank" target="_blank" class="rank-link">
-                            전체 순위 확인 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px;"></i>
-                        </a>
-                    </div>
-                    <div style="font-size: 19px; font-weight: bold; margin-bottom: 12px;" id="stat-hanwha">-승 -무 -패</div>
-                    <div class="donut-chart" id="chart-hanwha">
-                        <div class="donut-inner" id="percent-hanwha">0%</div>
-                    </div>
-                </div>
+               <div class="card win-card">
+    <div class="win-title" style="color: white;">2026 KBO 한화 이글스 성적<br>
+        <a href="https://m.sports.naver.com/kbaseball/record/kbo?seasonCode=2026&tab=teamRank" target="_blank" class="rank-link" style="font-size: 12px;">
+            전체 순위 확인 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px;"></i>
+        </a>
+        <!-- 기존에 이곳에 있던 span 태그는 깔끔하게 삭제 완료! -->
+    </div>
+    <div style="font-size: 19px; font-weight: bold; margin-bottom: 12px;" id="stat-hanwha">-승 -무 -패</div>
+
+    <div class="donut-chart" id="chart-hanwha">
+        <div class="donut-inner" id="percent-hanwha">0%</div>
+    </div>
+</div>
                 
                 <div class="card win-card highlight-card" style="border: 2px solid var(--point-orange);">
                     <div class="win-title">🎉 강덕구 입중계 전적 🎉</div>
@@ -1066,6 +1155,12 @@
                 }
             }
         }, 100);
+
+        // 💡 update_data.py 스크립트가 data.js에 생성해 준 lastUpdate 변수가 있다면 문구를 완성합니다.
+// 💡 기존 코드를 지우고 아래 내용으로 교체해 주세요!
+if (typeof lastUpdate !== 'undefined' && lastUpdate) {
+    document.getElementById('dashboard-update-date').innerText = `${lastUpdate} Updated`;
+}
 
         window.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
